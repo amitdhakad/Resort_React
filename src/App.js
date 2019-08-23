@@ -11,15 +11,13 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 function App() {
   return (
     <React.Fragment>
-      <Router>
-        <NavBar />
-        <Switch>
-          <Route exact path="/" component={Home} />
-          <Route exact path="/Rooms/" component={Rooms} />
-          <Route exact path="/Rooms/:slug" component={SingleRoom} />
-          <Route component={Error} />
-        </Switch>
-      </Router>
+      <NavBar />
+      <Switch>
+        <Route exact path="/" component={Home} />
+        <Route exact path="/Rooms/" component={Rooms} />
+        <Route exact path="/Rooms/:slug" component={SingleRoom} />
+        <Route component={Error} />
+      </Switch>
     </React.Fragment>
   );
 }

@@ -9,7 +9,7 @@ class Rooms extends Component {
   }
   render() {
     return (
-      <Hero>
+      <Hero hero="roomsHero">
         <Banner title="Ours Rooms">
           <Link to="/" className="btn-primary">
             Return Home
