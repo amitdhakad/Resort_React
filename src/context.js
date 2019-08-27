@@ -1,18 +1,53 @@
 import React, { Component } from "react";
+import items from "./data";
 const RoomContext = React.createContext();
 
 class RoomProvider extends Component {
   state = {
-    greeting: "hello",
-    name: "john"
+    rooms: [],
+    sortedRooms: [],
+    featuredRooms: [],
+    loading: true
   };
+
+  /** Get Data  */
+  componentDidMount() {
+    let rooms = this.formatData(items);
+    let featuredRooms = rooms.filter(room => room.featured === true);
+    this.setState({
+      featuredRooms: featuredRooms,
+      loading: false,
+      sortedRooms: rooms,
+      rooms
+    });
+    /** if varibale name and array property name is same then no need to wirte assigneble method just return like rooms */
+  }
+
+  /** get room details */
+  getRoom = slug => {
+    //let tempRooms = [...this.state.rooms];
+    let tempRooms = this.state.rooms;
+    const room = tempRooms.find(room => room.slug === slug);
+    return room;
+  };
+
+  formatData(itemsArr) {
+    let tempItems = itemsArr.map(item => {
+      let id = item.sys.id;
+      let images = item.fields.images.map(image => image.fields.file.url);
+      let room = { ...item.fields, images: images, id };
+      /** oter way 
+       * if varible and array item name is same then no need to wirte bith just return item name 
+       * let room = { ...item.fields, images, id };
+       */
+      return room;
+    });
+    return tempItems;
+  }
+
   render() {
-    const test = {
-      greeting: "hello",
-      name: "john"
-    };
     return (
-      <RoomContext.Provider value={this.state}>
+      <RoomContext.Provider value={{ ...this.state, getRoom: this.getRoom }}>
         {this.props.children}
       </RoomContext.Provider>
     );
