@@ -5,6 +5,7 @@ import Hero from "../Components/Hero";
 import Banner from "../Components/Banner";
 
 import { RoomContext } from "../context";
+import StyledHero from "../Components/styledHero";
 
 class SingleRoom extends Component {
   constructor(props) {
@@ -20,19 +21,71 @@ class SingleRoom extends Component {
   render() {
     const { getRoom } = this.context;
     const room = getRoom(this.state.slug);
-    console.log(room, "room");
+    console.log(room);
+    if (!room) {
+      return (
+        <div className="error">
+          <h3>no such room could be found....</h3>
+          <Link to="/rooms" className="btn-primary">
+            back to room
+          </Link>
+        </div>
+      );
+    }
+    const {
+      name,
+      breakfast,
+      images,
+      description,
+      capacity,
+      size,
+      price,
+      extras,
+      pets
+    } = room;
+    const [mainImage, ...restImages] = images;
     return (
       <React.Fragment>
-        <Hero>
-          <Banner
-            title="luxurious Rooms"
-            subTitle="deluxe rooms starting at $99"
-          >
-            <Link to="/" className="btn-primary">
-              Home
+        <StyledHero img={mainImage || this.state.defaultImg}>
+          <Banner title={`${name} Room`}>
+            <Link to="/rooms" className="btn-primary">
+              back to room
             </Link>
           </Banner>
-        </Hero>
+        </StyledHero>
+        <section className="single-room">
+          <div className="single-room-images">
+            {restImages.map((item, index) => {
+              return <img key={index} src={item} alert={name} />;
+            })}
+          </div>
+
+          <div className="single-room-info">
+            <article className="desc">
+              <h3>Details</h3>
+              <p>{description}</p>
+            </article>
+            <article className="info">
+              <h3>Info</h3>
+              <h6>Price : ${price}</h6>
+              <h6>Size : {size} SQFT </h6>
+              <h6>
+                max capacity :{" "}
+                {capacity > 1 ? `${capacity} people` : `${capacity} person`}
+              </h6>
+              <h6>{pets ? "Pets allowed" : "No pets"}</h6>
+              <h6>{breakfast && "free breakfast included"}</h6>
+            </article>
+          </div>
+        </section>
+        <section className="room-extras">
+          <h6>extras</h6>
+          <ul className="extras">
+            {extras.map((item, index) => {
+              return <li key={index}>{item}</li>;
+            })}
+          </ul>
+        </section>
       </React.Fragment>
     );
   }

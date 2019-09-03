@@ -7,18 +7,32 @@ class RoomProvider extends Component {
     rooms: [],
     sortedRooms: [],
     featuredRooms: [],
-    loading: true
+    loading: true,
+    type: "all",
+    capacity: 1,
+    price: 0,
+    minPrice: 0,
+    maxPrice: 0,
+    minSize: 0,
+    maxSize: 0,
+    breakfast: false,
+    pets: false
   };
 
   /** Get Data  */
   componentDidMount() {
     let rooms = this.formatData(items);
     let featuredRooms = rooms.filter(room => room.featured === true);
+    let maxPrice = Math.max(...rooms.map(item => item.price));
+    let maxSize = Math.max(...rooms.map(item => item.size));
     this.setState({
       featuredRooms: featuredRooms,
       loading: false,
       sortedRooms: rooms,
-      rooms
+      rooms,
+      price: maxPrice,
+      maxPrice,
+      maxSize
     });
     /** if varibale name and array property name is same then no need to wirte assigneble method just return like rooms */
   }

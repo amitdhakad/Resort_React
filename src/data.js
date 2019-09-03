@@ -515,14 +515,14 @@ export default [
         {
           fields: {
             file: {
-              url: room3
+              url: room4
             }
           }
         },
         {
           fields: {
             file: {
-              url: room4
+              url: room3
             }
           }
         }
